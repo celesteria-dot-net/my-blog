@@ -19,4 +19,6 @@ COPY --from=builder --chown=nonroot:nonroot /app/target/release/my-blog /
 COPY ./static /static
 USER nonroot
 
+EXPOSE 8080
+
 ENTRYPOINT ["/my-blog"]
