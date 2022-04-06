@@ -1,0 +1,25 @@
+name: Build Docker
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".github/workflows/**"
+      - "!.github/workflows/docker.yml"
+      - "README.md"
+      - "LICENSE"
+      - "renovate.json"
+      - ".gitignore"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and push
+        uses: aevea/action-kaniko@master
+        with:
+          registry: ghcr.io
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image: image
+          cache: true
+          cache_registry: cache
