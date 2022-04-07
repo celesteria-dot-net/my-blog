@@ -15,10 +15,10 @@ RUN cargo build --release
 
 FROM gcr.io/distroless/cc
 
-COPY --from=builder --chown=nonroot:nonroot /app/target/release/my-blogs /
+COPY --from=builder --chown=nonroot:nonroot /app/target/release/my-blog /
 COPY ./static /static
 USER nonroot
 
 EXPOSE 8080
 
-ENTRYPOINT ["/my-blogs"]
+ENTRYPOINT ["/my-blog"]

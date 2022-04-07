@@ -707,7 +707,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "my-blogs"
+name = "my-blog"
 version = "0.1.0"
 dependencies = [
  "actix-files",
