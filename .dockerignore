@@ -1,4 +1,5 @@
 .github/
+target/
 
 .gitignore
 Dockerfile
