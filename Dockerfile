@@ -17,8 +17,9 @@ FROM gcr.io/distroless/cc
 
 COPY --from=builder --chown=nonroot:nonroot /app/target/release/my-blog /
 COPY ./static /static
-USER nonroot
 
-EXPOSE 8080
+USER nonroot
+ENV PORT 8080
+EXPOSE $PORT
 
 ENTRYPOINT ["/my-blog"]
