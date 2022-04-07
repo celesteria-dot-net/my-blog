@@ -6,6 +6,11 @@ use std::env;
 const PORT_KEY: &str = "PORT";
 const DEFAULT_PORT: u16 = 8080;
 
+/// Load port number from environmental variables.
+///
+/// # Returns
+///
+/// Port number. If the number is not defined in env or invalid string, use default number.
 fn load_port() -> u16 {
     let default_port_msg = format!("Default port ({}) will be used.", DEFAULT_PORT);
 
