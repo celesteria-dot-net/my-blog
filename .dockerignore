@@ -1,0 +1,7 @@
+.github/
+
+.gitignore
+Dockerfile
+LICENSE
+README.md
+renovate.json
