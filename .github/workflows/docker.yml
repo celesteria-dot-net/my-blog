@@ -23,8 +23,6 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
-      - name: Create tag
-        run: echo "TAGS=$IMAGE:latest" >> $GITHUB_ENV
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v3
