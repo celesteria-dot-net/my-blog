@@ -1,12 +1,11 @@
 /**
  * protobufをビルドするためのファイル
  */
-use protobuf::descriptor::field_descriptor_proto::Type;
-use protobuf::reflect::FieldDescriptor;
-use protobuf::reflect::MessageDescriptor;
-use protobuf_codegen::Codegen;
-use protobuf_codegen::Customize;
-use protobuf_codegen::CustomizeCallback;
+use protobuf::{
+    descriptor::field_descriptor_proto::Type,
+    reflect::{FieldDescriptor, MessageDescriptor},
+};
+use protobuf_codegen::{Codegen, Customize, CustomizeCallback};
 
 fn main() {
     struct GenSerde;
