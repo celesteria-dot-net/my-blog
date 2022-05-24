@@ -52,6 +52,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
+      - run: ls -la
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
