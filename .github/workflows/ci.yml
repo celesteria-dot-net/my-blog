@@ -15,7 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           submodules: recursive
       - uses: actions-rs/toolchain@v1
         with:
@@ -50,9 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
           submodules: recursive
-      - run: ls -la
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
