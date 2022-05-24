@@ -9,6 +9,8 @@ async fn main() -> std::io::Result<()> {
 
     info!("The server is starting!");
     debug!("build server");
+    // TODO: v1に対応させる
+    // .service?
     let server = HttpServer::new(|| {
         App::new()
             .wrap(Logger::default())
