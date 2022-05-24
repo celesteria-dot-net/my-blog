@@ -8,17 +8,16 @@ async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     info!("The server is starting!");
+
     debug!("build server");
-    // TODO: v1に対応させる
-    // .service?
     let server = HttpServer::new(|| {
         App::new()
             .wrap(Logger::default())
             .route("/list", actix_web::web::get().to(responder::list_posts))
     });
-
     debug!("bind port");
     let port = utils::load_port();
+
     server.bind(("0.0.0.0", port))?.run().await?;
 
     info!("The server has stopped!");
