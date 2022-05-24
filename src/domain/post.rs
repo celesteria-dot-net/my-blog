@@ -1,9 +1,11 @@
-use super::PostMeta;
+use super::{PostId, PostMeta};
 
+use derive_new::new;
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Serialize)]
+#[derive(new, Serialize, Deserialize)]
 pub struct Post {
-    pub content: String,
-    pub meta: PostMeta,
+    id: PostId,
+    content: String,
+    meta: PostMeta,
 }

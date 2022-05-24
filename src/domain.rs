@@ -1,4 +1,8 @@
+mod post_meta;
+pub use post_meta::PostMeta;
+
 mod post;
 pub use post::Post;
 
-pub use crate::post::PostMeta;
+mod post_id;
+pub use post_id::PostId;
