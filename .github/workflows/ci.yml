@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -46,6 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
