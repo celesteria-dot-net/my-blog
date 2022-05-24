@@ -1,4 +1,4 @@
-use crate::domain::{Post, PostMeta};
+use crate::domain::{Post, PostId, PostMeta};
 
 use actix_web::{HttpResponse, Responder};
 use gray_matter::{engine::YAML, Matter};
@@ -9,12 +9,24 @@ pub async fn list_posts() -> impl Responder {
     let list: Vec<Post> = fs::read_dir("./static")
         .unwrap()
         .map(|dir| dir.unwrap().path())
-        .map(fs::read_to_string)
-        .map(|str| matter.parse_with_struct::<PostMeta>(&str.unwrap()).unwrap())
-        .map(|mat| Post {
-            content: mat.content,
-            meta: mat.data,
+        .filter(|dir| dir.extension().and_then(|s| s.to_str()) == Some("md"))
+        .map(|dir| {
+            (
+                dir.file_stem()
+                    .and_then(|s| s.to_str())
+                    .map(|s| s.to_string())
+                    .unwrap(),
+                fs::read_to_string(dir),
+            )
         })
+        .map(|(file_name, str)| {
+            (
+                PostId::new(file_name),
+                matter.parse_with_struct::<PostMeta>(&str.unwrap()).unwrap(),
+            )
+        })
+        .filter(|(id, _)| id.is_ok())
+        .map(|(id, mat)| Post::new(id.unwrap(), mat.content, mat.data))
         .collect();
 
     HttpResponse::Ok().json(list)
