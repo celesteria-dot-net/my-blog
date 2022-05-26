@@ -4,7 +4,7 @@ use actix_web::{get, HttpResponse, Responder};
 use gray_matter::{engine::YAML, Matter};
 use std::fs;
 
-#[get("/list")]
+#[get("/posts")]
 pub async fn list_posts() -> impl Responder {
     let matter = Matter::<YAML>::new();
     let list: Vec<Post> = fs::read_dir("./static")
