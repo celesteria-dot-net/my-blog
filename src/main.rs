@@ -13,7 +13,7 @@ async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(|| {
         App::new()
             .wrap(Logger::default())
-            .route("/list", actix_web::web::get().to(responder::list_posts))
+            .service(responder::list_posts)
     });
     debug!("bind port");
     let port = utils::load_port();

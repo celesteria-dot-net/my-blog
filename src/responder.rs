@@ -1,9 +1,10 @@
 use crate::domain::{Post, PostId, PostMeta};
 
-use actix_web::{HttpResponse, Responder};
+use actix_web::{get, HttpResponse, Responder};
 use gray_matter::{engine::YAML, Matter};
 use std::fs;
 
+#[get("/list")]
 pub async fn list_posts() -> impl Responder {
     let matter = Matter::<YAML>::new();
     let list: Vec<Post> = fs::read_dir("./static")
