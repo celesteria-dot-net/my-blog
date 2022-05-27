@@ -21,7 +21,6 @@ impl PostRepository for PostRepositoryImpl {
     }
 
     fn list(&self) -> anyhow::Result<Vec<Post>> {
-        let matter = Matter::<YAML>::new();
         let list: Vec<Post> = fs::read_dir("./static")
             .unwrap()
             .map(|dir| dir.unwrap().path())
@@ -36,6 +35,8 @@ impl PostRepository for PostRepositoryImpl {
                 )
             })
             .map(|(file_name, str)| {
+                let matter = Matter::<YAML>::new();
+
                 (
                     PostId::new(file_name),
                     matter.parse_with_struct::<PostMeta>(&str),
