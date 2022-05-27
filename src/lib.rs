@@ -1,3 +1,4 @@
 pub mod domain;
-pub mod responder;
-pub mod utils;
+pub mod infrastructure;
+pub mod presentation;
+pub mod usecase;
