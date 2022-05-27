@@ -1,62 +1,70 @@
-#[derive(
-    serde::Serialize, serde::Deserialize, derive_new::new, Clone, PartialEq, ::prost::Message,
-)]
-pub struct Date {
-    #[prost(int32, tag = "1")]
-    pub year: i32,
-    #[prost(int32, tag = "2")]
-    pub month: i32,
-    #[prost(int32, tag = "3")]
-    pub day: i32,
-}
-#[derive(
-    serde::Serialize, serde::Deserialize, derive_new::new, Clone, PartialEq, ::prost::Message,
-)]
-pub struct PostMeta {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(string, optional, tag = "3")]
-    pub image: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, repeated, tag = "4")]
-    pub tags: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    #[prost(message, optional, tag = "5")]
-    pub created_date: ::core::option::Option<Date>,
-    #[prost(message, optional, tag = "6")]
-    pub updated_date: ::core::option::Option<Date>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Post {}
-// message Post {
-// ! This should be defined elsewere
-// }
+use chrono::NaiveDate;
+use derive_new::new;
+use serde::Deserialize;
 
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPostsRequest {
-    /// The parent resource name, for example, "shelves/shelf1"
-    #[prost(string, tag = "1")]
-    pub parent: ::prost::alloc::string::String,
-    /// The maximum number of items to return.
-    #[prost(int32, tag = "2")]
-    pub page_size: i32,
-    /// The next_page_token value returned from a previous List request, if any.
-    #[prost(string, tag = "3")]
-    pub page_token: ::prost::alloc::string::String,
+#[derive(new, Deserialize)]
+pub struct PostMeta {
+    pub title: String,
+    pub description: Option<String>,
+    pub image: Option<String>,
+    #[serde(default)]
+    pub tags: Option<Vec<String>>,
+    #[serde(deserialize_with = "serde_naive_date::deserialize")]
+    pub created_date: NaiveDate,
+    #[serde(default)]
+    #[serde(deserialize_with = "serde_option_naive_date::deserialize")]
+    pub updated_date: Option<NaiveDate>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ListPostsResponse {
-    /// The field name should match the noun "Post" in the method name.
-    /// There will be a maximum number of items returned based on the page_size field in the request.
-    #[prost(message, repeated, tag = "1")]
-    pub posts: ::prost::alloc::vec::Vec<Post>,
-    /// Token to retrieve the next page of results, or empty if there are no more results in the list.
-    #[prost(string, tag = "2")]
-    pub next_page_token: ::prost::alloc::string::String,
+
+impl Default for PostMeta {
+    fn default() -> Self {
+        Self::new(
+            String::default(),
+            None,
+            None,
+            None,
+            NaiveDate::from_ymd(1900, 1, 1),
+            None,
+        )
+    }
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPostRequest {
-    /// The field will contain name of the resource requested.
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
+
+const FORMAT: &str = "%Y-%m-%d";
+
+mod serde_naive_date {
+    use super::FORMAT;
+
+    use chrono::NaiveDate;
+    use serde::{self, de, Deserialize, Deserializer};
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+
+        NaiveDate::parse_from_str(&s, FORMAT)
+            .map_err(|e| de::Error::custom(format!("chrono returned an error: {}", e)))
+    }
+}
+
+mod serde_option_naive_date {
+    use super::FORMAT;
+
+    use chrono::NaiveDate;
+    use serde::{Deserialize, Deserializer};
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<NaiveDate>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s: Option<String> = Option::deserialize(deserializer)?;
+
+        Ok(match s {
+            Some(s) => {
+                Some(NaiveDate::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?)
+            }
+            None => None,
+        })
+    }
 }
