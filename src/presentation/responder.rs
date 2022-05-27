@@ -1,12 +1,7 @@
-use crate::{
-    domain::model::{Post, PostId, PostMeta},
-    infrastructure::PostRepositoryImpl,
-    usecase::PostUseCase,
-};
+use super::model::Post;
+use crate::{infrastructure::PostRepositoryImpl, usecase::PostUseCase};
 
 use actix_web::{get, web, HttpResponse, Responder};
-use gray_matter::{engine::YAML, Matter};
-use std::fs;
 
 fn post_use_case() -> PostUseCase<PostRepositoryImpl> {
     PostUseCase::new(PostRepositoryImpl::new())
@@ -14,31 +9,16 @@ fn post_use_case() -> PostUseCase<PostRepositoryImpl> {
 
 #[get("/posts")]
 pub async fn list_posts() -> impl Responder {
-    // let matter = Matter::<YAML>::new();
-    // let list: Vec<Post> = fs::read_dir("./static")
-    //     .unwrap()
-    //     .map(|dir| dir.unwrap().path())
-    //     .filter(|dir| dir.extension().and_then(|s| s.to_str()) == Some("md"))
-    //     .map(|dir| {
-    //         (
-    //             dir.file_stem()
-    //                 .and_then(|s| s.to_str())
-    //                 .map(|s| s.to_string())
-    //                 .unwrap(),
-    //             fs::read_to_string(dir),
-    //         )
-    //     })
-    //     .map(|(file_name, str)| {
-    //         (
-    //             PostId::new(file_name),
-    //             matter.parse_with_struct::<PostMeta>(&str.unwrap()).unwrap(),
-    //         )
-    //     })
-    //     .filter(|(id, _)| id.is_ok())
-    //     .map(|(id, mat)| Post::new(id.unwrap(), mat.content, mat.data))
-    //     .collect();
-
-    HttpResponse::Ok()
+    match post_use_case().list() {
+        Ok(list) => {
+            let list = list
+                .into_iter()
+                .map(|post| post.into())
+                .collect::<Vec<Post>>();
+            HttpResponse::Ok().json(list)
+        }
+        Err(_) => HttpResponse::InternalServerError().finish(),
+    }
 }
 
 #[get("/posts/{post_id}")]
