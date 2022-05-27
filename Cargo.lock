@@ -680,6 +680,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "indoc"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "05a0bd019339e5d968b37855180087b7b9d512c5046fbd244cf8c95687927d6e"
+
+[[package]]
 name = "instant"
 version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -845,6 +851,7 @@ dependencies = [
  "derive-new",
  "env_logger",
  "gray_matter",
+ "indoc",
  "log",
  "prost 0.10.3",
  "prost-serde",
