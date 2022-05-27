@@ -1,11 +1,11 @@
 {
   "includes": ["protobuf/"],
   "files": ["protobuf/my-blog/v1/post_meta.proto"],
-  "output": "src/domain",
+  "output": "src/domain/model",
   "opts": [
     {
       "scope": "type",
-      "attr": "#[derive(serde::Serialize, serde::Deserialize)]",
+      "attr": "#[derive(serde::Serialize, serde::Deserialize, derive_new::new)]",
       "paths": [
           "post_meta.PostMeta",
           "post_meta.Date"
