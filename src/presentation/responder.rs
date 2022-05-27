@@ -7,6 +7,8 @@ fn post_use_case() -> PostUseCase<PostRepositoryImpl> {
     PostUseCase::new(PostRepositoryImpl::new())
 }
 
+// TODO: エラーをまとめる
+
 #[get("/posts")]
 pub async fn list_posts() -> impl Responder {
     match post_use_case().list() {
