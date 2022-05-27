@@ -27,14 +27,12 @@ impl PostRepository for PostRepositoryImpl {
                     fs::read_to_string(dir).unwrap(),
                 )
             })
-            .inspect(|(id, str)| println!("{:?} {:?}", id, str))
             .map(|(file_name, str)| {
                 (
                     PostId::new(file_name),
                     matter.parse_with_struct::<PostMeta>(&str),
                 )
             })
-            .inspect(|(id, meta)| println!("{} {}", id.is_ok(), meta.is_some()))
             .filter(|(id, meta)| id.is_ok() && meta.is_some())
             .map(|(id, meta)| (id.unwrap(), meta.unwrap()))
             .map(|(id, meta)| Post::new(id, meta.content, meta.data))
