@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Default)]
 pub struct PostId(pub String);
 
 impl PostId {
