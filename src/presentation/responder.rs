@@ -1,5 +1,5 @@
 use super::model::Post;
-use crate::{infrastructure::PostRepositoryImpl, usecase::PostUseCase};
+use crate::{domain::model::PostId, infrastructure::PostRepositoryImpl, usecase::PostUseCase};
 
 use actix_web::{get, web, HttpResponse, Responder};
 
@@ -24,6 +24,16 @@ pub async fn list_posts() -> impl Responder {
 #[get("/posts/{post_id}")]
 pub async fn show_post(path: web::Path<String>) -> impl Responder {
     let post_id = path.into_inner();
+    let post_id = match PostId::new(post_id) {
+        Ok(id) => id,
+        Err(_) => return HttpResponse::BadRequest().finish(),
+    };
 
-    HttpResponse::Ok().body(format!("post_id is {}", post_id))
+    match post_use_case().find_by_id(post_id) {
+        Ok(post) => {
+            let post: Post = post.into();
+            HttpResponse::Ok().json(post)
+        }
+        Err(_) => HttpResponse::InternalServerError().finish(),
+    }
 }
