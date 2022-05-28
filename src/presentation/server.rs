@@ -1,5 +1,4 @@
 use super::responder;
-
 use crate::infrastructure::PostRepositoryImpl;
 
 use actix_web::{middleware::Logger, App, HttpServer};
