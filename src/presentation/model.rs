@@ -1,6 +1,9 @@
 mod post;
 pub use post::Post;
 
+mod post_meta;
+pub use post_meta::PostMeta;
+
 mod date;
 use date::Date;
 
