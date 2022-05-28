@@ -5,7 +5,7 @@
   "opts": [
     {
       "scope": "type",
-      "attr": "#[derive(serde::Serialize, serde::Deserialize, derive_new::new)]",
+      "attr": "#[derive(serde::Serialize, derive_new::new)]",
       "paths": [
         "date.Date",
         "post.Post",

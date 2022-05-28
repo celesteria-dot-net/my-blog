@@ -1,6 +1,4 @@
-#[derive(
-    serde::Serialize, serde::Deserialize, derive_new::new, Clone, PartialEq, ::prost::Message,
-)]
+#[derive(serde::Serialize, derive_new::new, Clone, PartialEq, ::prost::Message)]
 pub struct PostMeta {
     #[prost(string, optional, tag = "1")]
     pub description: ::core::option::Option<::prost::alloc::string::String>,

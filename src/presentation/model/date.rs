@@ -1,6 +1,4 @@
-#[derive(
-    serde::Serialize, serde::Deserialize, derive_new::new, Clone, PartialEq, ::prost::Message,
-)]
+#[derive(serde::Serialize, derive_new::new, Clone, PartialEq, ::prost::Message)]
 pub struct Date {
     #[prost(int32, tag = "1")]
     pub year: i32,
