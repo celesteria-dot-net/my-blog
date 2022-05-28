@@ -11,6 +11,23 @@
         "post.Post",
         "post_meta.PostMeta"
       ]
+    },
+    {
+      "scope": "field",
+      "attr": "#[serde(skip_serializing_if = \"Option::is_none\")]",
+      "paths": [
+        "description",
+        "thumbnail",
+        "created_date",
+        "updated_date"
+      ]
+    },
+    {
+      "scope": "field",
+      "attr": "#[serde(skip_serializing_if = \"Vec::is_empty\")]",
+      "paths": [
+        "tags"
+      ]
     }
   ]
 }
