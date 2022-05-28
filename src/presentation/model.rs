@@ -14,17 +14,16 @@ mod converter {
 
     impl From<crate::domain::model::Post> for Post {
         fn from(post: crate::domain::model::Post) -> Self {
-            Self::new(post.id.0, post.content, Some(post.meta.into()))
+            Self::new(post.id.0, post.title, post.content, Some(post.meta.into()))
         }
     }
 
     impl From<crate::domain::model::PostMeta> for PostMeta {
         fn from(meta: crate::domain::model::PostMeta) -> Self {
             Self::new(
-                meta.title,
                 meta.description,
-                meta.image,
-                meta.tags.unwrap_or_default(),
+                meta.thumbnail,
+                meta.tags,
                 Some(meta.created_date.into()),
                 meta.updated_date.map(|date| date.into()),
             )
