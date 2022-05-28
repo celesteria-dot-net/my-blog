@@ -1,7 +1,7 @@
 use super::responder;
 use crate::infrastructure::PostRepositoryImpl;
 
-use actix_web::{middleware::Logger, App, HttpServer};
+use actix_web::{middleware::Logger, web::Data, App, HttpServer};
 use derive_new::new;
 use log::{debug, info, warn};
 
@@ -14,7 +14,7 @@ pub async fn run() -> std::io::Result<()> {
     debug!("build server");
     let server = HttpServer::new(|| {
         App::new()
-            .app_data(Context::new())
+            .app_data(Data::new(Context::new()))
             .wrap(Logger::default())
             .service(responder::list_posts)
             .service(responder::show_post)
