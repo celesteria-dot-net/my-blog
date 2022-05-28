@@ -4,7 +4,7 @@ use derive_new::new;
 use gray_matter::{engine::YAML, Matter};
 use std::{fs, path::PathBuf};
 
-#[derive(new)]
+#[derive(new, Clone, Default)]
 pub struct PostRepositoryImpl {}
 
 impl PostRepository for PostRepositoryImpl {

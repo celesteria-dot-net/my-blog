@@ -1,8 +1,10 @@
 use super::responder;
 
+use crate::infrastructure::PostRepositoryImpl;
+
 use actix_web::{middleware::Logger, App, HttpServer};
+use derive_new::new;
 use log::{debug, info, warn};
-use std::env;
 
 #[actix_web::main]
 pub async fn run() -> std::io::Result<()> {
@@ -13,6 +15,7 @@ pub async fn run() -> std::io::Result<()> {
     debug!("build server");
     let server = HttpServer::new(|| {
         App::new()
+            .app_data(Context::new())
             .wrap(Logger::default())
             .service(responder::list_posts)
             .service(responder::show_post)
@@ -33,7 +36,7 @@ const DEFAULT_PORT: u16 = 8080;
 fn load_port() -> u16 {
     let default_port_msg = format!("Default port ({}) will be used.", DEFAULT_PORT);
 
-    env::var(PORT_KEY)
+    std::env::var(PORT_KEY)
         .unwrap_or_else(|_| {
             warn!(
                 "\"{}\" is not defined in environment variables. {}",
@@ -46,4 +49,10 @@ fn load_port() -> u16 {
             warn!("The port number is invalid. {}", default_port_msg);
             DEFAULT_PORT
         })
+}
+
+#[derive(new)]
+pub struct Context {
+    #[new(default)]
+    pub repo: PostRepositoryImpl,
 }
