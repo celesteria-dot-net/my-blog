@@ -2,7 +2,7 @@
   "protoc": {
       "options": [
           "--proto_path=./protobuf/my-blog/v1/post.proto",
-          "--proto_path=./protobuf/my-blog/v1/post_meta.proto"
+          "--proto_path=./protobuf/my-blog/v1/date.proto"
       ]
   }
 }

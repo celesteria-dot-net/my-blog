@@ -1,8 +1,8 @@
-mod post_meta;
-pub use post_meta::*;
-
 mod post;
 pub use post::Post;
+
+mod date;
+use date::Date;
 
 mod converter {
     use super::*;
