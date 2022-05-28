@@ -7,3 +7,4 @@ Dockerfile
 LICENSE
 README.md
 renovate.json
+debug.sh
