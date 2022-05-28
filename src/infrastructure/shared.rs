@@ -12,7 +12,7 @@ pub trait GeneratePost {
 
 impl GeneratePost for Post {
     fn gen(id: PostId, matter: PostMatter, content: String) -> Post {
-        let regex = Regex::new(r"^(\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))$").unwrap();
+        let regex = Regex::new(r"^(\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))").unwrap();
         let created_date = regex.find(&id.0).unwrap().as_str();
         let meta = PostMeta::new(
             matter.description,
