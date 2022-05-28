@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 use regex::Regex;
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct PostId(pub String);
 
 impl PostId {

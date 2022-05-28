@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 use derive_new::new;
 
-#[derive(new)]
+#[derive(new, Debug)]
 pub struct PostMeta {
     pub description: Option<String>,
     pub thumbnail: Option<String>,
