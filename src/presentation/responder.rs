@@ -1,4 +1,7 @@
-use super::{model::Post, server::Context};
+use super::{
+    model::{GetPostRequest, Post},
+    server::Context,
+};
 use crate::{domain::model::PostId, usecase::PostUseCase};
 
 use actix_web::{get, web, HttpResponse, Responder};
@@ -20,9 +23,12 @@ pub async fn list_posts(data: web::Data<Context>) -> impl Responder {
 }
 
 #[get("/posts/{post_id}")]
-pub async fn show_post(path: web::Path<String>, data: web::Data<Context>) -> impl Responder {
-    let post_id = path.into_inner();
-    let post_id = match PostId::new(post_id) {
+pub async fn show_post(
+    path: web::Path<GetPostRequest>,
+    data: web::Data<Context>,
+) -> impl Responder {
+    let path = path.into_inner();
+    let post_id = match PostId::new(path.post_id) {
         Ok(id) => id,
         Err(_) => return HttpResponse::BadRequest().finish(),
     };

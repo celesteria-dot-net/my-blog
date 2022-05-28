@@ -7,6 +7,9 @@ pub use post_meta::PostMeta;
 mod date;
 use date::Date;
 
+mod post_service;
+pub use post_service::*;
+
 mod converter {
     use super::*;
 

@@ -1,4 +1,6 @@
-#[derive(serde::Serialize, derive_new::new, Clone, PartialEq, ::prost::Message)]
+#[derive(
+    serde::Deserialize, serde::Serialize, derive_new::new, Clone, PartialEq, ::prost::Message,
+)]
 pub struct Post {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,

@@ -1,4 +1,6 @@
-#[derive(serde::Serialize, derive_new::new, Clone, PartialEq, ::prost::Message)]
+#[derive(
+    serde::Deserialize, serde::Serialize, derive_new::new, Clone, PartialEq, ::prost::Message,
+)]
 pub struct PostMeta {
     #[prost(string, optional, tag = "1")]
     #[serde(skip_serializing_if = "Option::is_none")]
