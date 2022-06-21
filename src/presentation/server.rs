@@ -1,8 +1,6 @@
-use super::responder;
-use crate::infrastructure::PostRepositoryImpl;
+use super::{modules::Modules, responder};
 
 use actix_web::{middleware::Logger, web::Data, App, HttpServer};
-use derive_new::new;
 use log::{debug, info, warn};
 
 #[actix_web::main]
@@ -14,7 +12,7 @@ pub async fn run() -> std::io::Result<()> {
     debug!("build server");
     let server = HttpServer::new(|| {
         App::new()
-            .app_data(Data::new(Context::new()))
+            .app_data(Data::new(Modules::default()))
             .wrap(Logger::default())
             .service(responder::list_posts)
             .service(responder::show_post)
@@ -48,10 +46,4 @@ fn load_port() -> u16 {
             warn!("The port number is invalid. {}", default_port_msg);
             DEFAULT_PORT
         })
-}
-
-#[derive(new)]
-pub struct Context {
-    #[new(default)]
-    pub repo: PostRepositoryImpl,
 }

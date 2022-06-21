@@ -1,16 +1,16 @@
 use super::{
     model::{GetPostRequest, Post},
-    server::Context,
+    modules::*,
 };
-use crate::{domain::model::PostId, usecase::PostUseCase};
+use crate::domain::model::PostId;
 
 use actix_web::{get, web, HttpResponse, Responder};
 
 // TODO: エラーをまとめる
 
 #[get("/posts")]
-pub async fn list_posts(data: web::Data<Context>) -> impl Responder {
-    match PostUseCase::new(data.repo.clone()).list() {
+pub async fn list_posts(data: web::Data<Modules>) -> impl Responder {
+    match data.post_use_case().list() {
         Ok(list) => {
             let list = list
                 .into_iter()
@@ -25,7 +25,7 @@ pub async fn list_posts(data: web::Data<Context>) -> impl Responder {
 #[get("/posts/{post_id}")]
 pub async fn show_post(
     path: web::Path<GetPostRequest>,
-    data: web::Data<Context>,
+    data: web::Data<Modules>,
 ) -> impl Responder {
     let path = path.into_inner();
     let post_id = match PostId::new(path.post_id) {
@@ -33,7 +33,7 @@ pub async fn show_post(
         Err(_) => return HttpResponse::BadRequest().finish(),
     };
 
-    match PostUseCase::new(data.repo.clone()).find_by_id(post_id) {
+    match data.post_use_case().find_by_id(post_id) {
         Ok(post) => {
             let post: Post = post.into();
             HttpResponse::Ok().json(post)
