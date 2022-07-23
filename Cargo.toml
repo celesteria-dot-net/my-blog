@@ -24,4 +24,4 @@ indoc = "1.0"
 prost-serde = "0.3"
 
 [dev-dependencies]
-test-case = "2.1"
+test-case = "2.2"
